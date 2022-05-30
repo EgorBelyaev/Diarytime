@@ -17,7 +17,7 @@ class DiaryTrackerViewModel(
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    private val note = dao.getAllNote()
+    val note = dao.getAllNote()
     //1
     private val onenote = MutableLiveData<DiaryNote?>()
 

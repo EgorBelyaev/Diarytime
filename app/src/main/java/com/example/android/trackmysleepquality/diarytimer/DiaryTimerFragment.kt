@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.android.trackmysleepquality.R
 import com.example.android.trackmysleepquality.database.DiaryDatabase
 import com.example.android.trackmysleepquality.databinding.FragmentDiaryTimerBinding
@@ -28,9 +30,19 @@ class DiaryTimerFragment : Fragment() {
         val dao = DiaryDatabase.getInstance(application).getDiaryDatabaseDao()
         val viewModelFactory = DiaryTimerModelFactory(args.diaryNoteKey,dao)
         val viewModel = ViewModelProvider(this,viewModelFactory).get(DiaryTimerViewModel::class.java)
+
+
+
+        viewModel.navigateToDiaryTracker.observe(viewLifecycleOwner, Observer { shouldNavigate ->
+            if (shouldNavigate != null){
+                findNavController().navigate(DiaryTimerFragmentDirections.actionSleepQualityFragmentToSleepTrackerFragment())
+                viewModel.doneNavigating()
+            }
+        })
+
         return binding.root
+
     }
 
-    //noteString?
 
 }
